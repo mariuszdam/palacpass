@@ -34,6 +34,22 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    const video = mediaRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute("muted", "");
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "true");
+
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
+  }, []);
+
   return (
     <section
       ref={sectionRef}
@@ -62,10 +78,6 @@ export default function Hero() {
           }}
         >
           <source src="/videos/hero-mobile.mp4" type="video/mp4" />
-          <source
-            src="https://palacpass.pl/wp-content/uploads/2022/08/dji_0314_366.mp4"
-            type="video/mp4"
-          />
         </video>
         <div className="video-overlay absolute inset-0" />
         <div
