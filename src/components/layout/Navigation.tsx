@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const NAV_LINKS = [
-  { label: "O Pałacu", href: "#intro" },
+  { label: "O Palacu", href: "#intro" },
   { label: "Przestrzenie", href: "#venues" },
   { label: "Galeria", href: "#gallery" },
   { label: "Historia", href: "#history" },
@@ -21,17 +21,28 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    ScrollTrigger.create({
-      start: "top -80",
-      onUpdate: (self) => {
-        setIsScrolled(self.progress > 0);
-      },
-    });
-  }, []);
+    let trigger: ScrollTrigger | undefined;
+
+    if (!isOpen) {
+      trigger = ScrollTrigger.create({
+        start: "top -80",
+        onUpdate: (self) => {
+          setIsScrolled(self.progress > 0);
+        },
+      });
+    } else {
+      setIsScrolled(false);
+    }
+
+    return () => {
+      trigger?.kill();
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
       gsap.fromTo(
         menuRef.current,
         { clipPath: "circle(0% at calc(100% - 3rem) 2rem)" },
@@ -55,6 +66,7 @@ export default function Navigation() {
       );
     } else {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
       gsap.to(menuRef.current, {
         clipPath: "circle(0% at calc(100% - 3rem) 2rem)",
         duration: 0.6,
@@ -67,42 +79,27 @@ export default function Navigation() {
     <>
       <nav
         ref={navRef}
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 transition-all duration-500 ${
-          isScrolled
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-500 md:px-12 ${
+          isScrolled && !isOpen
             ? "bg-cream/90 backdrop-blur-md shadow-sm"
             : "bg-transparent"
         }`}
       >
-        {/* Logo */}
-        <a
-          href="/"
-          className="relative z-50 flex flex-col items-start"
-          data-cursor="Home"
-        >
-          <span
-            className="text-2xl md:text-3xl tracking-tight"
+        <a href="/" className="relative z-50 flex items-center" data-cursor="Home">
+          <img
+            src="/images/palacpass-logo-original.svg"
+            alt="Palac Pass"
+            className="h-10 w-auto md:h-12"
             style={{
-              fontFamily: "var(--font-serif)",
-              fontWeight: 300,
-              color: isScrolled || isOpen ? "var(--color-forest)" : "var(--color-cream)",
-              transition: "color 0.5s",
+              filter:
+                isOpen || !isScrolled
+                  ? "brightness(0) saturate(100%) invert(94%) sepia(16%) saturate(210%) hue-rotate(331deg) brightness(101%) contrast(91%)"
+                  : "brightness(0) saturate(100%) invert(19%) sepia(9%) saturate(834%) hue-rotate(50deg) brightness(94%) contrast(92%)",
+              transition: "filter 0.5s",
             }}
-          >
-            Pałac Pass
-          </span>
-          <span
-            className="text-[10px] tracking-[0.35em] uppercase"
-            style={{
-              fontFamily: "var(--font-sans)",
-              color: isScrolled ? "var(--color-gold)" : "var(--color-gold-light)",
-              transition: "color 0.5s",
-            }}
-          >
-            Est. 1830
-          </span>
+          />
         </a>
 
-        {/* Desktop Links */}
         <div className="hidden lg:flex items-center gap-10">
           {NAV_LINKS.map((link) => (
             <a
@@ -122,10 +119,12 @@ export default function Navigation() {
           ))}
           <a
             href="#contact"
-            className="magnetic-btn ml-4 px-6 py-3 border text-sm tracking-widest uppercase transition-all duration-300"
+            className="magnetic-btn ml-4 border px-6 py-3 text-sm tracking-widest uppercase transition-all duration-300"
             style={{
               fontFamily: "var(--font-sans)",
-              borderColor: isScrolled ? "var(--color-forest)" : "var(--color-cream)",
+              borderColor: isScrolled
+                ? "var(--color-forest)"
+                : "var(--color-cream)",
               color: isScrolled ? "var(--color-forest)" : "var(--color-cream)",
             }}
             data-cursor="Book"
@@ -134,10 +133,9 @@ export default function Navigation() {
           </a>
         </div>
 
-        {/* Hamburger */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="relative z-50 flex flex-col items-end gap-[6px] lg:hidden p-3"
+          className="relative z-50 flex flex-col items-end gap-[6px] p-3 lg:hidden"
           aria-label="Menu"
         >
           <span
@@ -167,7 +165,6 @@ export default function Navigation() {
         </button>
       </nav>
 
-      {/* Full-screen mobile menu */}
       <div
         ref={menuRef}
         className="fixed inset-0 z-40 flex flex-col items-center justify-center"
@@ -182,7 +179,7 @@ export default function Navigation() {
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="menu-link text-3xl sm:text-4xl md:text-6xl tracking-tight transition-colors duration-300"
+              className="menu-link text-3xl tracking-tight transition-colors duration-300 sm:text-4xl md:text-6xl"
               style={{
                 fontFamily: "var(--font-serif)",
                 fontWeight: 300,
@@ -192,21 +189,6 @@ export default function Navigation() {
               {link.label}
             </a>
           ))}
-        </div>
-        <div className="absolute bottom-8 sm:bottom-12 flex flex-col items-center gap-4">
-          <a
-            href="tel:+48785897157"
-            className="text-sm tracking-widest"
-            style={{ color: "var(--color-gold)", fontFamily: "var(--font-sans)" }}
-          >
-            +48 785 897 157
-          </a>
-          <p
-            className="text-xs tracking-widest uppercase opacity-50"
-            style={{ color: "var(--color-cream)", fontFamily: "var(--font-sans)" }}
-          >
-            Pass 1, 05-870 Błonie
-          </p>
         </div>
       </div>
     </>

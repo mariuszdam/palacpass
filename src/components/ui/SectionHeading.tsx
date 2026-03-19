@@ -49,11 +49,10 @@ export default function SectionHeading({
       </h2>
       {subtitle && (
         <p
-          className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed"
+          className="mt-4 inline-block text-xs uppercase tracking-[0.4em] sm:mt-6"
           style={{
             fontFamily: "var(--font-sans)",
-            fontWeight: 300,
-            color: light ? "rgba(242,235,223,0.7)" : "var(--color-charcoal-light)",
+            color: light ? "var(--color-gold-light)" : "var(--color-gold)",
             marginLeft: align === "center" ? "auto" : undefined,
             marginRight: align === "center" ? "auto" : undefined,
           }}

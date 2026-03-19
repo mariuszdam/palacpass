@@ -277,7 +277,7 @@ export default function Contact() {
                   name="eventType"
                   value={formData.eventType}
                   onChange={handleChange}
-                  className="w-full py-3.5 text-base transition-all duration-300 cursor-pointer"
+                  className="w-full py-3.5 text-base transition-all duration-300"
                   style={inputStyle}
                 >
                   <option value="">Wybierz...</option>

@@ -5,7 +5,7 @@ import gsap from "gsap";
 
 export default function Preloader() {
   const preloaderRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLHeadingElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const [isComplete, setIsComplete] = useState(false);
 
@@ -51,20 +51,24 @@ export default function Preloader() {
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
       style={{ backgroundColor: "var(--color-forest)" }}
     >
-      <h1
-        ref={textRef}
-        className="font-serif text-4xl sm:text-5xl md:text-7xl tracking-tight opacity-0"
-        style={{ color: "var(--color-gold)", fontFamily: "var(--font-serif)" }}
-      >
-        Pałac Pass
-      </h1>
+      <div ref={textRef} className="opacity-0">
+        <img
+          src="/images/palacpass-logo-original.svg"
+          alt="Palac Pass"
+          className="h-auto w-[min(72vw,26rem)]"
+          style={{
+            filter:
+              "brightness(0) saturate(100%) invert(75%) sepia(21%) saturate(509%) hue-rotate(356deg) brightness(89%) contrast(86%)",
+          }}
+        />
+      </div>
       <div
         ref={lineRef}
-        className="mt-8 h-px w-32 sm:w-48 origin-left"
+        className="mt-8 h-px w-32 origin-left sm:w-48"
         style={{ backgroundColor: "var(--color-gold)", transform: "scaleX(0)" }}
       />
       <p
-        className="mt-6 text-sm tracking-[0.3em] uppercase opacity-60"
+        className="mt-6 text-sm uppercase tracking-[0.3em] opacity-60"
         style={{ color: "var(--color-cream)", fontFamily: "var(--font-sans)" }}
       >
         Est. 1830

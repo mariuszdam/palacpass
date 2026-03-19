@@ -3,7 +3,6 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
-import CustomCursor from "@/components/layout/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import Preloader from "@/components/layout/Preloader";
 
@@ -53,7 +52,6 @@ export default function RootLayout({
     <html lang="pl" className={`${cormorant.variable} ${inter.variable}`}>
       <body>
         <Preloader />
-        <CustomCursor />
         <SmoothScroll>
           <Navigation />
           <main>{children}</main>

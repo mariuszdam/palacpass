@@ -71,27 +71,6 @@ html.lenis, html.lenis body {
   overflow: hidden;
 }
 
-/* ── Custom cursor ── */
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-gold);
-  border-radius: 50%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  transition: transform 0.15s var(--ease-smooth);
-}
-
-.cursor-dot.expanded {
-  transform: scale(8);
-  background-color: var(--color-cream);
-  mix-blend-mode: difference;
-}
-
 /* ── Reveal animations ── */
 .reveal-text {
   clip-path: inset(0 0 100% 0);

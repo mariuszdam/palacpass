@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -32,6 +32,7 @@ const TESTIMONIALS = [
 export default function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -54,7 +55,16 @@ export default function Testimonials() {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % TESTIMONIALS.length);
+    }, 4500);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
   const allTestimonials = [...TESTIMONIALS, ...TESTIMONIALS];
+  const activeTestimonial = TESTIMONIALS[activeIndex];
 
   return (
     <section
@@ -85,8 +95,115 @@ export default function Testimonials() {
         </h2>
       </div>
 
-      {/* Horizontal marquee of testimonial cards */}
-      <div className="relative">
+      {/* Mobile carousel */}
+      <div className="relative px-6 md:hidden">
+        <div
+          className="mx-auto w-full max-w-sm border px-6 py-8 text-center"
+          style={{
+            borderColor: "rgba(181, 154, 110, 0.3)",
+            backgroundColor: "var(--color-cream)",
+          }}
+        >
+          <span
+            className="mb-4 block text-6xl leading-none"
+            style={{
+              fontFamily: "var(--font-serif)",
+              color: "var(--color-gold)",
+              opacity: 0.5,
+            }}
+          >
+            &ldquo;
+          </span>
+          <p
+            className="text-lg leading-relaxed"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontWeight: 300,
+              color: "var(--color-charcoal)",
+            }}
+          >
+            {activeTestimonial.text}
+          </p>
+          <div className="mt-8 gold-line" />
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <span
+              className="text-sm tracking-wide"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 500,
+                color: "var(--color-forest)",
+              }}
+            >
+              {activeTestimonial.author}
+            </span>
+            <span
+              className="text-xs uppercase tracking-[0.2em]"
+              style={{
+                fontFamily: "var(--font-sans)",
+                color: "var(--color-gold)",
+              }}
+            >
+              {activeTestimonial.detail}
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={() =>
+              setActiveIndex((current) =>
+                current === 0 ? TESTIMONIALS.length - 1 : current - 1
+              )
+            }
+            className="flex h-11 w-11 items-center justify-center rounded-full border"
+            style={{
+              borderColor: "rgba(181, 154, 110, 0.35)",
+              color: "var(--color-forest)",
+            }}
+            aria-label="Poprzednia opinia"
+          >
+            ‹
+          </button>
+
+          <div className="flex items-center justify-center gap-2">
+            {TESTIMONIALS.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setActiveIndex(i)}
+                className="h-2.5 rounded-full transition-all duration-300"
+                style={{
+                  width: activeIndex === i ? "1.75rem" : "0.5rem",
+                  backgroundColor:
+                    activeIndex === i
+                      ? "var(--color-gold)"
+                      : "rgba(181, 154, 110, 0.3)",
+                }}
+                aria-label={`Przejdz do opinii ${i + 1}`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() =>
+              setActiveIndex((current) => (current + 1) % TESTIMONIALS.length)
+            }
+            className="flex h-11 w-11 items-center justify-center rounded-full border"
+            style={{
+              borderColor: "rgba(181, 154, 110, 0.35)",
+              color: "var(--color-forest)",
+            }}
+            aria-label="Nastepna opinia"
+          >
+            ›
+          </button>
+        </div>
+      </div>
+
+      {/* Desktop marquee */}
+      <div className="relative hidden md:block">
         <div ref={marqueeRef} className="flex gap-8 whitespace-nowrap">
           {allTestimonials.map((testimonial, i) => (
             <div

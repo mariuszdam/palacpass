@@ -16,7 +16,7 @@ const VENUES = [
     image: "https://uqkbgkxqwnyinzfgrwec.supabase.co/storage/v1/object/public/assets/images/dsc_8185_107.jpg",
     features: ["Do 170 gości", "3 sale", "Park 17 ha", "56 noclegów"],
     href: "/wesela",
-    cta: "Oferta weselna",
+    cta: "Sprawdz oferte weselna",
   },
   {
     title: "Eventy",
@@ -26,7 +26,7 @@ const VENUES = [
     image: "https://uqkbgkxqwnyinzfgrwec.supabase.co/storage/v1/object/public/assets/images/rdyf_347.jpg",
     features: ["Konferencje", "Szkolenia", "Bankiety", "Integracje"],
     href: "/eventy",
-    cta: "Oferta biznesowa",
+    cta: "Sprawdz oferte biznesowa",
   },
 ];
 

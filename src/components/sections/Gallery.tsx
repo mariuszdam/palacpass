@@ -9,39 +9,33 @@ gsap.registerPlugin(ScrollTrigger);
 
 const GALLERY_IMAGES = [
   {
-    src: "https://uqkbgkxqwnyinzfgrwec.supabase.co/storage/v1/object/public/assets/images/dsc_1965-kopia.jpg",
-    alt: "Wnętrze pałacu — elegancki salon",
-    span: "md:col-span-1 md:row-span-2",
-    aspect: "aspect-[4/3] md:aspect-[3/4]",
-  },
-  {
     src: "https://uqkbgkxqwnyinzfgrwec.supabase.co/storage/v1/object/public/assets/images/dsc_8185_107.jpg",
-    alt: "Ceremonia ślubna w parku pałacowym",
-    span: "col-span-1 row-span-1",
+    alt: "Ceremonia slubu w parku palacowym",
     aspect: "aspect-[4/3]",
   },
   {
-    src: "https://uqkbgkxqwnyinzfgrwec.supabase.co/storage/v1/object/public/assets/images/alexey_pilipenko-431.jpg",
-    alt: "Ogród pałacowy — letnie przyjęcie",
-    span: "col-span-1 row-span-1",
+    src: "https://palacpass.pl/wp-content/uploads/2020/11/as__7900_425.jpg",
+    alt: "Palacowe wnetrze z kominkiem",
     aspect: "aspect-[4/3]",
   },
   {
-    src: "https://uqkbgkxqwnyinzfgrwec.supabase.co/storage/v1/object/public/assets/images/na-strone_800.jpg",
-    alt: "Pałac Pass — fasada od strony parku",
-    span: "md:col-span-2 md:row-span-1",
-    aspect: "aspect-[21/9]",
-  },
-  {
-    src: "https://uqkbgkxqwnyinzfgrwec.supabase.co/storage/v1/object/public/assets/images/rdyf_347.jpg",
-    alt: "Sala balowa — spotkanie biznesowe",
-    span: "col-span-1 row-span-1",
+    src: "https://palacpass.pl/wp-content/uploads/2020/11/as__7991_382.jpg",
+    alt: "Rozowa sala jadalniana",
     aspect: "aspect-[4/3]",
   },
   {
-    src: "https://uqkbgkxqwnyinzfgrwec.supabase.co/storage/v1/object/public/assets/images/hgjk_777.jpg",
-    alt: "Detale architektoniczne pałacu",
-    span: "col-span-1 row-span-1",
+    src: "https://palacpass.pl/wp-content/uploads/2022/07/dustin-magdalena-wedding-day-1_481-scaled.jpg",
+    alt: "Przyjazd do palacu zabytkowym samochodem",
+    aspect: "aspect-[4/3]",
+  },
+  {
+    src: "https://palacpass.pl/wp-content/uploads/2021/10/rdyf_347.jpg",
+    alt: "Wieczorne przyjecie w eleganckiej przestrzeni",
+    aspect: "aspect-[4/3]",
+  },
+  {
+    src: "https://palacpass.pl/wp-content/uploads/2022/07/alexey_pilipenko-100_628-2048x1365.jpg",
+    alt: "Fasada Palacu Pass",
     aspect: "aspect-[4/3]",
   },
 ];
@@ -82,57 +76,57 @@ export default function Gallery() {
     <section
       id="gallery"
       ref={sectionRef}
-      className="py-16 sm:py-24 md:py-40 px-6 md:px-12"
+      className="px-6 py-16 md:px-12 sm:py-24 md:py-40"
       style={{ backgroundColor: "var(--color-forest)" }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="mx-auto max-w-7xl">
         <SectionHeading
           label="Galeria"
-          title="Poznaj Pałac"
-          subtitle="Eleganckie wnętrza, malowniczy park i unikatowa architektura."
+          title="Poznaj Palac"
+          subtitle="Eleganckie wnetrza, malowniczy park i unikatowa architektura."
           light
         />
 
-        {/* Masonry grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
           {GALLERY_IMAGES.map((image, i) => (
             <div
               key={i}
-              className={`gallery-item img-zoom ${image.span}`}
+              className="gallery-item"
               data-cursor="View"
             >
-              <div className={`relative overflow-hidden ${image.aspect}`}>
+              <div
+                className={`group relative overflow-hidden ${image.aspect}`}
+                style={{ backgroundColor: "rgba(242, 235, 223, 0.08)" }}
+              >
                 <img
                   src={image.src}
                   alt={image.alt}
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-smooth)] group-hover:scale-[1.03]"
                   loading="lazy"
                 />
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-forest/0 transition-colors duration-500 hover:bg-forest/20 flex items-end p-6">
-                  <span
-                    className="text-sm tracking-widest opacity-0 translate-y-4 transition-all duration-500"
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      color: "var(--color-cream)",
-                    }}
-                  >
-                    {image.alt}
-                  </span>
-                </div>
               </div>
+              <p
+                className="mt-4 text-center text-sm uppercase tracking-[0.28em]"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  color: "var(--color-gold)",
+                  opacity: 0.78,
+                }}
+              >
+                {image.alt}
+              </p>
             </div>
           ))}
         </div>
 
-        {/* Drone video section */}
         <div className="mt-16 md:mt-24">
-          <div className="relative aspect-video overflow-hidden" data-cursor="Play">
+          <div className="relative aspect-video overflow-hidden">
             <video
               autoPlay
               muted
               loop
               playsInline
+              controls={false}
               className="h-full w-full object-cover"
             >
               <source
@@ -140,30 +134,16 @@ export default function Gallery() {
                 type="video/mp4"
               />
             </video>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div
-                className="w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center backdrop-blur-sm transition-transform duration-500 hover:scale-110"
-                style={{ backgroundColor: "rgba(181, 154, 110, 0.3)" }}
-              >
-                <svg
-                  className="w-4 h-4 md:w-6 md:h-6 ml-1"
-                  fill="var(--color-cream)"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-            </div>
           </div>
           <p
-            className="mt-4 text-center text-sm tracking-[0.3em] uppercase"
+            className="mt-4 text-center text-sm uppercase tracking-[0.3em]"
             style={{
               fontFamily: "var(--font-sans)",
               color: "var(--color-gold)",
               opacity: 0.7,
             }}
           >
-            Lot nad Pałacem Pass — widok z lotu ptaka
+            Lot nad Palacem Pass - widok z lotu ptaka
           </p>
         </div>
       </div>
