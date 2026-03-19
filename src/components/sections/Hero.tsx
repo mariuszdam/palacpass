@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -10,6 +10,7 @@ export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const mediaRef = useRef<HTMLVideoElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -40,6 +41,10 @@ export default function Hero() {
       className="relative h-screen w-full overflow-hidden"
     >
       <div className="absolute inset-0">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/images/hero-poster.jpg')" }}
+        />
         <video
           ref={mediaRef}
           autoPlay
@@ -50,9 +55,13 @@ export default function Hero() {
           disablePictureInPicture
           disableRemotePlayback
           controlsList="nofullscreen noremoteplayback nodownload"
-          preload="auto"
-          className="h-full w-full object-cover"
+          preload="metadata"
+          className={`h-full w-full object-cover transition-opacity duration-700 ${
+            isVideoReady ? "opacity-100" : "opacity-0"
+          }`}
           poster="/images/hero-poster.jpg"
+          onLoadedData={() => setIsVideoReady(true)}
+          onCanPlay={() => setIsVideoReady(true)}
           style={{
             filter: "brightness(0.68) contrast(1.18) saturate(0.82) sepia(0.12)",
           }}
