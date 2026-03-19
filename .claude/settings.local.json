@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npm --version)",
+      "Bash(where npm.cmd)",
+      "Read(//c/Program Files/nodejs/**)",
+      "Bash(node node_modules/next/dist/bin/next dev --port 60050)",
+      "Bash(taskkill //PID 7700 //F)",
+      "Bash(find /c/Users/Anetka/palacpass/src -type f -name *.js -o -name *.jsx -o -name *.ts -o -name *.tsx -o -name *.json -o -name *.html -o -name *.css)"
+    ]
+  }
+}

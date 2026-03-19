@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════
+   PAŁAC PASS — Design System
+   ═══════════════════════════════════════════ */
+
+@theme {
+  --color-forest: #353A2C;
+  --color-forest-light: #4A5040;
+  --color-gold: #B59A6E;
+  --color-gold-light: #CAAF86;
+  --color-cream: #F2EBDF;
+  --color-cream-dark: #E5DCD0;
+  --color-charcoal: #2A2421;
+  --color-charcoal-light: #5A5048;
+  --color-burgundy: #6B3A3A;
+  --color-alabaster: #F7F3EC;
+  --color-espresso: #4A3728;
+  --color-overlay: rgba(53, 58, 44, 0.7);
+
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  --ease-smooth: cubic-bezier(0.625, 0.05, 0, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Base ── */
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-gold);
+  color: var(--color-forest);
+}
+
+/* ── Typography ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* ── Smooth scroll container ── */
+html.lenis, html.lenis body {
+  height: auto;
+  overflow-x: hidden;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ── Custom cursor ── */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-gold);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.15s var(--ease-smooth);
+}
+
+.cursor-dot.expanded {
+  transform: scale(8);
+  background-color: var(--color-cream);
+  mix-blend-mode: difference;
+}
+
+/* ── Reveal animations ── */
+.reveal-text {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.2s var(--ease-out-expo);
+}
+
+.reveal-text.is-visible {
+  clip-path: inset(0 0 0% 0);
+}
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 1s var(--ease-out-expo);
+}
+
+.reveal-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Parallax image container ── */
+.parallax-img {
+  overflow: hidden;
+}
+
+.parallax-img img {
+  transform: scale(1.2);
+  will-change: transform;
+}
+
+/* ── Marquee ── */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* ── Magnetic button ── */
+.magnetic-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.magnetic-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-gold);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.6s var(--ease-smooth);
+  z-index: 0;
+}
+
+.magnetic-btn:hover::before {
+  transform: scale(2.5);
+}
+
+.magnetic-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Video overlay ── */
+.video-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(53, 58, 44, 0.3) 0%,
+    rgba(53, 58, 44, 0.1) 40%,
+    rgba(53, 58, 44, 0.6) 100%
+  );
+}
+
+/* ── Stagger children ── */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.stagger-children.is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-children.is-visible > *:nth-child(1) { transition-delay: 0s; }
+.stagger-children.is-visible > *:nth-child(2) { transition-delay: 0.1s; }
+.stagger-children.is-visible > *:nth-child(3) { transition-delay: 0.2s; }
+.stagger-children.is-visible > *:nth-child(4) { transition-delay: 0.3s; }
+.stagger-children.is-visible > *:nth-child(5) { transition-delay: 0.4s; }
+.stagger-children.is-visible > *:nth-child(6) { transition-delay: 0.5s; }
+
+.stagger-children > * {
+  transition: opacity 0.8s var(--ease-out-expo), transform 1s var(--ease-out-expo);
+}
+
+/* ── Horizontal rule ── */
+.gold-line {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-gold) 20%,
+    var(--color-gold) 80%,
+    transparent 100%
+  );
+}
+
+/* ── Image hover zoom ── */
+.img-zoom {
+  overflow: hidden;
+}
+
+.img-zoom img {
+  transition: transform 1.2s var(--ease-smooth);
+}
+
+.img-zoom:hover img {
+  transform: scale(1.08);
+}
