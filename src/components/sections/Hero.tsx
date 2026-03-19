@@ -40,9 +40,15 @@ export default function Hero() {
     const video = mediaRef.current;
     if (!video) return;
 
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute("muted", "");
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "true");
+    video.load();
+
     const tryPlay = async () => {
       try {
-        video.muted = true;
         await video.play();
       } catch {
         setVideoSrc(
@@ -66,8 +72,10 @@ export default function Hero() {
         />
         <video
           ref={mediaRef}
+          src={videoSrc}
           autoPlay
           muted
+          defaultMuted
           loop
           playsInline
           controls={false}
@@ -79,6 +87,7 @@ export default function Hero() {
             isVideoReady ? "opacity-100" : "opacity-0"
           }`}
           poster="/images/hero-poster.jpg"
+          onLoadedMetadata={() => setIsVideoReady(true)}
           onLoadedData={() => setIsVideoReady(true)}
           onCanPlay={() => setIsVideoReady(true)}
           onError={() =>
@@ -87,9 +96,7 @@ export default function Hero() {
           style={{
             filter: "brightness(0.68) contrast(1.18) saturate(0.82) sepia(0.12)",
           }}
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </video>
+        />
         <div className="video-overlay absolute inset-0" />
         <div
           className="absolute inset-0"
