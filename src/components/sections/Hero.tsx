@@ -11,6 +11,7 @@ export default function Hero() {
   const mediaRef = useRef<HTMLVideoElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const [isVideoReady, setIsVideoReady] = useState(false);
+  const [videoSrc, setVideoSrc] = useState("/videos/hero.mp4");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -34,6 +35,24 @@ export default function Hero() {
 
     return () => ctx.revert();
   }, []);
+
+  useEffect(() => {
+    const video = mediaRef.current;
+    if (!video) return;
+
+    const tryPlay = async () => {
+      try {
+        video.muted = true;
+        await video.play();
+      } catch {
+        setVideoSrc(
+          "https://palacpass.pl/wp-content/uploads/2022/08/dji_0314_366.mp4"
+        );
+      }
+    };
+
+    void tryPlay();
+  }, [videoSrc]);
 
   return (
     <section
@@ -62,11 +81,14 @@ export default function Hero() {
           poster="/images/hero-poster.jpg"
           onLoadedData={() => setIsVideoReady(true)}
           onCanPlay={() => setIsVideoReady(true)}
+          onError={() =>
+            setVideoSrc("https://palacpass.pl/wp-content/uploads/2022/08/dji_0314_366.mp4")
+          }
           style={{
             filter: "brightness(0.68) contrast(1.18) saturate(0.82) sepia(0.12)",
           }}
         >
-          <source src="/videos/hero.mp4" type="video/mp4" />
+          <source src={videoSrc} type="video/mp4" />
         </video>
         <div className="video-overlay absolute inset-0" />
         <div
