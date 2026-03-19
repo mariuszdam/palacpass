@@ -48,7 +48,6 @@ export default function Hero() {
           ref={mediaRef}
           autoPlay
           muted
-          defaultMuted
           loop
           playsInline
           controls={false}
