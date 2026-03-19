@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -10,8 +10,6 @@ export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const mediaRef = useRef<HTMLVideoElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
-  const [isVideoReady, setIsVideoReady] = useState(false);
-  const [videoSrc, setVideoSrc] = useState("/videos/hero-mobile.mp4");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -36,30 +34,6 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
-  useEffect(() => {
-    const video = mediaRef.current;
-    if (!video) return;
-
-    video.muted = true;
-    video.defaultMuted = true;
-    video.setAttribute("muted", "");
-    video.setAttribute("playsinline", "");
-    video.setAttribute("webkit-playsinline", "true");
-    video.load();
-
-    const tryPlay = async () => {
-      try {
-        await video.play();
-      } catch {
-        setVideoSrc(
-          "https://palacpass.pl/wp-content/uploads/2022/08/dji_0314_366.mp4"
-        );
-      }
-    };
-
-    void tryPlay();
-  }, [videoSrc]);
-
   return (
     <section
       ref={sectionRef}
@@ -72,7 +46,6 @@ export default function Hero() {
         />
         <video
           ref={mediaRef}
-          src={videoSrc}
           autoPlay
           muted
           defaultMuted
@@ -82,21 +55,19 @@ export default function Hero() {
           disablePictureInPicture
           disableRemotePlayback
           controlsList="nofullscreen noremoteplayback nodownload"
-          preload="metadata"
-          className={`h-full w-full object-cover transition-opacity duration-700 ${
-            isVideoReady ? "opacity-100" : "opacity-0"
-          }`}
+          preload="auto"
+          className="h-full w-full object-cover"
           poster="/images/hero-poster.jpg"
-          onLoadedMetadata={() => setIsVideoReady(true)}
-          onLoadedData={() => setIsVideoReady(true)}
-          onCanPlay={() => setIsVideoReady(true)}
-          onError={() =>
-            setVideoSrc("https://palacpass.pl/wp-content/uploads/2022/08/dji_0314_366.mp4")
-          }
           style={{
             filter: "brightness(0.68) contrast(1.18) saturate(0.82) sepia(0.12)",
           }}
-        />
+        >
+          <source src="/videos/hero-mobile.mp4" type="video/mp4" />
+          <source
+            src="https://palacpass.pl/wp-content/uploads/2022/08/dji_0314_366.mp4"
+            type="video/mp4"
+          />
+        </video>
         <div className="video-overlay absolute inset-0" />
         <div
           className="absolute inset-0"
