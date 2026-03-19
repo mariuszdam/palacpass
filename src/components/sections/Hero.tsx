@@ -77,7 +77,7 @@ export default function Hero() {
             filter: "brightness(0.68) contrast(1.18) saturate(0.82) sepia(0.12)",
           }}
         >
-          <source src="/videos/hero-mobile.mp4" type="video/mp4" />
+          <source src="/videos/hero-web.mp4" type="video/mp4" />
         </video>
         <div className="video-overlay absolute inset-0" />
         <div
