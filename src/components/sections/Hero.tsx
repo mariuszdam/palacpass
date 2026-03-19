@@ -11,7 +11,7 @@ export default function Hero() {
   const mediaRef = useRef<HTMLVideoElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const [isVideoReady, setIsVideoReady] = useState(false);
-  const [videoSrc, setVideoSrc] = useState("/videos/hero.mp4");
+  const [videoSrc, setVideoSrc] = useState("/videos/hero-mobile.mp4");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
